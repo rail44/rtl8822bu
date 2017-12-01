@@ -764,7 +764,19 @@ check_bss:
 		cfg80211_roamed(padapter->pnetdev
 #if (LINUX_VERSION_CODE > KERNEL_VERSION(2, 6, 39) && LINUX_VERSION_CODE < KERNEL_VERSION(4, 12, 0)) || defined(COMPAT_KERNEL_RELEASE)
 		                , notify_channel
-#elif LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0)
+#endif
+/*
+	Sigh...  This is a _*SEPARATE*_ clause that the original patches that people used
+	here that munged the above #if/#endif clause TOGETHER as an #elif clause.
+	
+	Folks...check your closing parens in your code you're modifying this way to 
+	keep the code compilable in situations where the ABI changes in the kernel on you.
+	
+	A closing paren should *NEVER* be expressed in the middle in an #elif...EVER.
+
+	FCE (11/30/2017)
+*/
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0)
 		                , &roam_info, GFP_ATOMIC);
 #else
 		                , cur_network->network.MacAddress
