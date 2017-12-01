@@ -1,3 +1,8 @@
 sftp-config.json
 *.o
 *.ko
+*.cmd
+.tmp_versions/
+*.mod.c
+Module.symvers
+modules.order
